@@ -227,6 +227,7 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
      */
     @Override
     public void init() {
+        LogUtil.d("转账页面"," onCreate");
         rxPermissions = new RxPermissions(this);
         hdWalletName = getIntent().getStringExtra(EXT_WALLET_NAME);
         preferences = getSharedPreferences("Preferences", MODE_PRIVATE);
@@ -282,6 +283,8 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
         textBalance.setText(String.format("%s%s", balance, preferences.getString("base_unit", "")));
         registerLayoutChangeListener();
     }
+
+
 
     private void showWatchTipDialog () {
         CustomCenterDialog centerDialog = new CustomCenterDialog(mContext, new CustomCenterDialog.onConfirmClick() {
@@ -609,7 +612,6 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
         String errors = response.getErrors();
         if (!Strings.isNullOrEmpty(errors)) {
             showToast(errors);
-//            showToast(R.string.transaction_parse_error);
             return;
         }
         TransactionInfoBean info = TransactionInfoBean.objectFromData(response.getResult());
@@ -838,6 +840,7 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
     protected void onResume() {
         super.onResume();
         isResume = true;
+        LogUtil.d("转账页面"," onResume");
     }
 
     /**
@@ -1085,6 +1088,7 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        LogUtil.d("转账页面"," onNewIntent");
     }
 
     @Override

@@ -1,5 +1,4 @@
 package org.haobtc.onekey.activities.base;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.res.Configuration;
@@ -60,6 +59,14 @@ public class MyApplication extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated (@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+                String language = PreferencesManager.get(activity, FileNameConstant.myPreferences, Constant.LANGUAGE, "").toString();
+                if (!TextUtils.isEmpty(language)) {
+                    if (Constant.English.equals(language)) {
+                        switchLanguage(1);
+                    } else if (Constant.Chinese.equals(language)) {
+                        switchLanguage(0);
+                    }
+                }
             }
 
             @Override
@@ -89,6 +96,7 @@ public class MyApplication extends Application {
             @Override
             public void onActivitySaveInstanceState (@NonNull Activity activity, @NonNull Bundle outState) {
             }
+
 
             @Override
             public void onActivityDestroyed (@NonNull Activity activity) {
@@ -156,21 +164,20 @@ public class MyApplication extends Application {
         Global.py = Python.getInstance();
     }
 
-    public String getDeviceWay() {
+    public String getDeviceWay () {
         return (String) PreferencesManager.get(getInstance(), "Preferences"
                 , Constant.WAY, Constant.WAY_MODE_BLE);
     }
 
-
-    public void toastErr(Exception e){
-        if(e == null){
+    public void toastErr (Exception e) {
+        if (e == null) {
             return;
         }
         String info = e.toString();
-        if(TextUtils.isEmpty(info)){
+        if (TextUtils.isEmpty(info)) {
             return;
         }
-        S_HANDLER.post(() -> Toast.makeText(MyApplication.this,info,Toast.LENGTH_SHORT).show());
+        S_HANDLER.post(() -> Toast.makeText(MyApplication.this, info, Toast.LENGTH_SHORT).show());
     }
 
 }
