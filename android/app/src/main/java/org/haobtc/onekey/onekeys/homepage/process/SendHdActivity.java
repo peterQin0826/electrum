@@ -230,7 +230,6 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
      */
     @Override
     public void init() {
-        LogUtil.d("转账页面"," onCreate");
         rxPermissions = new RxPermissions(this);
         hdWalletName = getIntent().getStringExtra(EXT_WALLET_NAME);
         preferences = getSharedPreferences("Preferences", MODE_PRIVATE);
@@ -287,12 +286,10 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
         registerLayoutChangeListener();
     }
 
-
-
-    private void showWatchTipDialog () {
+    private void showWatchTipDialog() {
         CustomCenterDialog centerDialog = new CustomCenterDialog(mContext, new CustomCenterDialog.onConfirmClick() {
             @Override
-            public void onConfirm () {
+            public void onConfirm() {
                 finish();
             }
         });
@@ -305,7 +302,7 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
      * @return
      */
     @Override
-    public int getContentViewId () {
+    public int getContentViewId() {
         return R.layout.activity_send_hd;
     }
 
@@ -371,7 +368,11 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
                 checkboxSlow.setVisibility(View.VISIBLE);
                 checkboxRecommend.setVisibility(View.GONE);
                 checkboxFast.setVisibility(View.GONE);
-                currentFeeRate = currentFeeDetails.getSlow().getFeerate();
+                try {
+                    currentFeeRate = currentFeeDetails.getSlow().getFeerate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 currentTempTransaction = tempSlowTransaction;
                 selectFlag = SLOW_FEE_RATE;
                 keyBoardHideRefresh();
@@ -383,7 +384,11 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
                 checkboxSlow.setVisibility(View.GONE);
                 checkboxRecommend.setVisibility(View.VISIBLE);
                 checkboxFast.setVisibility(View.GONE);
-                currentFeeRate = currentFeeDetails.getNormal().getFeerate();
+                try {
+                    currentFeeRate = currentFeeDetails.getNormal().getFeerate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 currentTempTransaction = tempRecommendTransaction;
                 selectFlag = RECOMMENDED_FEE_RATE;
                 keyBoardHideRefresh();
@@ -395,7 +400,11 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
                 checkboxSlow.setVisibility(View.GONE);
                 checkboxRecommend.setVisibility(View.GONE);
                 checkboxFast.setVisibility(View.VISIBLE);
-                currentFeeRate = currentFeeDetails.getFast().getFeerate();
+                try {
+                    currentFeeRate = currentFeeDetails.getFast().getFeerate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 currentTempTransaction = tempFastTransaction;
                 selectFlag = FAST_FEE_RATE;
                 keyBoardHideRefresh();
@@ -529,7 +538,7 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
      * 计算最大可用余额
      */
 
-    private void calculateMaxSpendableAmount () {
+    private void calculateMaxSpendableAmount() {
         PyResponse<TemporaryTxInfo> pyResponse = PyEnv.getFeeByFeeRate(editReceiverAddress.getText().toString(), "!", String.valueOf(currentFeeRate));
         String errorMsg = pyResponse.getErrors();
         if (Strings.isNullOrEmpty(errorMsg)) {
@@ -615,6 +624,7 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
         String errors = response.getErrors();
         if (!Strings.isNullOrEmpty(errors)) {
             showToast(errors);
+//            showToast(R.string.transaction_parse_error);
             return;
         }
         TransactionInfoBean info = TransactionInfoBean.objectFromData(response.getResult());
@@ -649,11 +659,11 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
         }
     }
 
-    private void showWatchQrDialog () {
+    private void showWatchQrDialog() {
         new XPopup.Builder(mContext).asCustom(new CustomWatchWalletDialog(mContext, rawTx)).show();
     }
 
-    private boolean getFee (String feeRate, int type) {
+    private boolean getFee(String feeRate, int type) {
         PyResponse<TemporaryTxInfo> pyResponse = PyEnv.getFeeByFeeRate(editReceiverAddress.getText().toString(), isSetBig ? "!" : amount, feeRate);
         String errors = pyResponse.getErrors();
         if (Strings.isNullOrEmpty(errors)) {
@@ -843,7 +853,6 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
     protected void onResume() {
         super.onResume();
         isResume = true;
-        LogUtil.d("转账页面"," onResume");
     }
 
     /**
@@ -865,7 +874,6 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
                 amountBigDecimal = new BigDecimal("0");
             }
         }
-
         if (amountBigDecimal.equals(BigDecimal.ZERO)) {
             return null;
         }
@@ -883,7 +891,6 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
             default:
                 scale = 0;
         }
-
         return amountBigDecimal.setScale(scale, RoundingMode.DOWN).stripTrailingZeros().toPlainString();
     }
 
@@ -939,7 +946,7 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
     /**
      * 校验收款地址是否有效
      */
-    private void getAddressIsValid () {
+    private void getAddressIsValid() {
         String address = editReceiverAddress.getText().toString();
         if (!Strings.isNullOrEmpty(address)) {
             addressInvalid = PyEnv.verifyAddress(address);
@@ -1010,9 +1017,13 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
         if (isCustom) {
             return getFee(String.valueOf(currentFeeRate), CUSTOMIZE_FEE_RATE);
         } else {
-            if (currentFeeDetails != null) {
-                double fast = currentFeeDetails.getFast().getFeerate();
-                return getFee(Double.toString(fast), FAST_FEE_RATE);
+            try {
+                if (currentFeeDetails != null) {
+                    double fast = currentFeeDetails.getFast().getFeerate();
+                    return getFee(Double.toString(fast), FAST_FEE_RATE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return false;
@@ -1093,7 +1104,6 @@ public class SendHdActivity extends BaseActivity implements BusinessAsyncTask.He
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        LogUtil.d("转账页面"," onNewIntent");
     }
 
     @Override
