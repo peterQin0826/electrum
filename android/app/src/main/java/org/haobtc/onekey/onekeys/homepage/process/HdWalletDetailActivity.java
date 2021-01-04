@@ -1,4 +1,5 @@
 package org.haobtc.onekey.onekeys.homepage.process;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -87,24 +88,20 @@ public class HdWalletDetailActivity extends BaseActivity {
     RelativeLayout deleteLayout;
     @BindView(R.id.delete_tv)
     TextView deleteTV;
-    @BindView(R.id.delete_ll)
-    LinearLayout mDeleteLayout;
     private String type;
     private boolean isBackup;
     private SharedPreferences preferences;
     private String showWalletType;
     private int currentOperation;
-    private String qrData;
-    private String deleteHdWalletName;
     private static final int DELETE_HD_DERIVED = 100;
 
     @Override
-    public int getLayoutId () {
+    public int getLayoutId() {
         return R.layout.activity_hd_wallet_detail;
     }
 
     @Override
-    public void initView () {
+    public void initView() {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         inits();
@@ -116,13 +113,12 @@ public class HdWalletDetailActivity extends BaseActivity {
         String hdWalletName = getIntent().getStringExtra("hdWalletName");
         isBackup = getIntent().getBooleanExtra("isBackup", false);
         textWalletName.setText(hdWalletName);
-        if (StringConstant.Btc_HD_Standard.equals(showWalletType) || StringConstant.Btc_Derived_Standard.equals(showWalletType)) {
+        if (StringConstant.Btc_Derived_Standard.equals(showWalletType)) {
             textHdWallet.setText(getString(R.string.hd_wallet));
             //HD wallet detail and derive wallet
             linHdWalletShow.setVisibility(View.VISIBLE);
             linSingleShow.setVisibility(View.GONE);
             deleteTV.setText(R.string.delete_wallet_single);
-            mDeleteLayout.setVisibility(View.GONE);
         } else if (showWalletType.contains(StringConstant.HW)) {
             textHdWallet.setText(getString(R.string.hardware_wallet));
             linSingleShow.setVisibility(View.VISIBLE);
@@ -154,7 +150,6 @@ public class HdWalletDetailActivity extends BaseActivity {
         PyResponse<CurrentAddressDetail> response = PyEnv.getCurrentAddressInfo();
         String error = response.getErrors();
         if (Strings.isNullOrEmpty(error)) {
-            qrData = response.getResult().getQrData();
             String addr = response.getResult().getAddr();
             String front6 = addr.substring(0, 6);
             String after6 = addr.substring(addr.length() - 6);
@@ -185,8 +180,8 @@ public class HdWalletDetailActivity extends BaseActivity {
                 export(view.getId());
                 break;
             case R.id.rel_delete_wallet:
-                if (StringConstant.Btc_HD_Standard.equals(showWalletType) || StringConstant.Btc_Derived_Standard.equals(showWalletType)) {
-                    showDeleteDialog(0);
+                if (StringConstant.Btc_Derived_Standard.equals(showWalletType)) {
+                    showDeleteDialog();
                 } else {
                     if (showWalletType.contains(StringConstant.HW) || showWalletType.contains(StringConstant.Watch)) {
                         DeleteWalletTipsDialog dialog = new DeleteWalletTipsDialog();
@@ -215,7 +210,7 @@ public class HdWalletDetailActivity extends BaseActivity {
         }
     }
 
-    private void showDeleteDialog (int mode) {
+    private void showDeleteDialog() {
         new XPopup.Builder(mContext)
                 .dismissOnTouchOutside(false)
                 .isDestroyOnDismiss(true)
@@ -225,13 +220,15 @@ public class HdWalletDetailActivity extends BaseActivity {
                         if (!isBackup) {
                             showBackDialog();
                         } else {
-                            doSelect(mode);
+                            doSelect();
                         }
                     }
                 }, CustomReSetBottomPopup.deleteHdChildren)).show();
     }
 
-    private void doSelect (int mode) {
+    private String deleteHdWalletName;
+
+    private void doSelect () {
         PyResponse<String> response = PyEnv.getDerivedNum("btc");
         if (Strings.isNullOrEmpty(response.getErrors())) {
             int coinNum = Integer.parseInt(response.getResult());
@@ -242,12 +239,6 @@ public class HdWalletDetailActivity extends BaseActivity {
             }
         }
     }
-
-    private void showDeleteHdDeriveWallet () {
-        currentOperation = DELETE_HD_DERIVED;
-        startActivity(new Intent(this, SoftPassActivity.class));
-    }
-
 
     private void showDeleteHDRootWallet () {
         new XPopup.Builder(mContext)
@@ -268,9 +259,9 @@ public class HdWalletDetailActivity extends BaseActivity {
                 LocalWalletInfo info = LocalWalletInfo.objectFromData(stringEntry.getValue().toString());
                 String type = info.getType();
                 String name = info.getName();
-                if (Constant.WALLET_TYPE_LOCAL_HD.equals(type)) {
-                    deleteHdWalletName = name;
-                }
+//                if (Constant.WALLET_TYPE_LOCAL_HD.equals(type)) {
+                deleteHdWalletName = name;
+//                }
             });
         }
         hdWalletIsBackup();
@@ -288,12 +279,17 @@ public class HdWalletDetailActivity extends BaseActivity {
                 finish();
             } else {
                 //没备份提示备份
-                new BackupRequireDialog(mContext).show(getSupportFragmentManager(), "");
+                new BackupRequireDialog(this).show(getSupportFragmentManager(), "");
             }
         } catch (Exception e) {
             mToast(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void showDeleteHdDeriveWallet () {
+        currentOperation = DELETE_HD_DERIVED;
+        startActivity(new Intent(this, SoftPassActivity.class));
     }
 
     private void showBackDialog () {
@@ -458,5 +454,4 @@ public class HdWalletDetailActivity extends BaseActivity {
             finish();
         }
     }
-
 }
