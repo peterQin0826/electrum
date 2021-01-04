@@ -306,6 +306,7 @@ public final class PyEnv {
     public static void loadLocalWalletInfo(Context context) {
         try {
             String walletsInfo = sCommands.callAttr(PyConstant.GET_WALLETS_INFO).toString();
+            LogUtil.d("oneKey", "----->" + walletsInfo);
             if (!Strings.isNullOrEmpty(walletsInfo)) {
                 JsonArray wallets = JsonParser.parseString(walletsInfo).getAsJsonArray();
                 wallets.forEach((wallet) -> {
@@ -744,6 +745,23 @@ public final class PyEnv {
         } catch (Exception e) {
             response.setErrors(e.getMessage());
             e.printStackTrace();
+        }
+        return response;
+    }
+
+    /**
+     * 获取派生HD钱包的个数
+     *
+     * @param coin
+     * @return
+     */
+    public static PyResponse<String> getDerivedNum (String coin) {
+        PyResponse<String> response = new PyResponse<>();
+        try {
+            String res = sCommands.callAttr(PyConstant.GET_DEVIRED_NUM, coin).toString();
+            response.setResult(res);
+        } catch (Exception e) {
+            response.setErrors(e.getMessage());
         }
         return response;
     }

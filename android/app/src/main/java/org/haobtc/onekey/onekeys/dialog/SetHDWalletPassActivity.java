@@ -363,7 +363,7 @@ public class SetHDWalletPassActivity extends BaseActivity implements TextWatcher
             LocalWalletInfo info = LocalWalletInfo.objectFromData(stringEntry.getValue().toString());
             String type = info.getType();
             String name = info.getName();
-            if ("btc-hd-standard".equals(type) || "btc-derived-standard".equals(type)) {
+            if ("btc-derived-standard".equals(type)) {
                 hd.add(name);
             }
         });

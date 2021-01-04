@@ -113,7 +113,7 @@ public class DeleteWalletActivity extends BaseActivity implements CompoundButton
     private void deleteOtherWallet() {
         if ("deleteSingleWallet".equals(importHdword) && !isBackup) {
             // 没备份提示备份
-            new BackupRequireDialog().show(getSupportFragmentManager(), "backup_require");
+            new BackupRequireDialog(mContext).show(getSupportFragmentManager(), "backup_require");
             return;
         }
         startActivity(new Intent(this, SoftPassActivity.class));
@@ -153,7 +153,7 @@ public class DeleteWalletActivity extends BaseActivity implements CompoundButton
             LocalWalletInfo info = LocalWalletInfo.objectFromData(stringEntry.getValue().toString());
             String type = info.getType();
             String name = info.getName();
-            if ("btc-hd-standard".equals(type) || "btc-derived-standard".equals(type)) {
+            if ("btc-derived-standard".equals(type)) {
                 hd.add(name);
             }
         });

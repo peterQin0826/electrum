@@ -1,9 +1,11 @@
 package org.haobtc.onekey.ui.dialog;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 
 import org.haobtc.onekey.R;
+import org.haobtc.onekey.onekeys.homepage.process.HdWalletDetailActivity;
 import org.haobtc.onekey.ui.base.BaseDialogFragment;
 
 import butterknife.BindView;
@@ -17,6 +19,10 @@ import butterknife.OnClick;
 public class BackupRequireDialog extends BaseDialogFragment {
     @BindView(R.id.btn_back)
     Button btnBack;
+    private Context context;
+    public BackupRequireDialog (Context context) {
+        this.context=context;
+    }
 
     /***
      * init layout

@@ -209,4 +209,9 @@ public final class PyConstant {
      */
     public static final String RESET_APP = "reset_wallet_info";
 
+    /**
+     * 获取派生钱包个数
+     */
+    public static final String GET_DEVIRED_NUM = "get_devired_num";
+
 }
