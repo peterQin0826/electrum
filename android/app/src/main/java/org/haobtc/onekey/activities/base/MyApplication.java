@@ -49,7 +49,7 @@ public class MyApplication extends Application {
         initBle();
         initChaquo();
         registerLifeActivityCallbacks();
-        CrashReport.initCrashReport(getApplicationContext(), BUGLY_APPID, true);
+        CrashReport.initCrashReport(getApplicationContext(), BUGLY_APPID, false);
     }
 
     private void registerLifeActivityCallbacks () {

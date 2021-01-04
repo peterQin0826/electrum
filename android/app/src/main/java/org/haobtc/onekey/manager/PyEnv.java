@@ -761,10 +761,14 @@ public final class PyEnv {
      * @param password   APP 主密码
      * @param walletName 要删除的钱包名称
      */
-    public static PyResponse<Void> deleteWallet(String password, String walletName) {
+    public static PyResponse<Void> deleteWallet(String password, String walletName,boolean allDelete) {
         PyResponse<Void> response = new PyResponse<>();
         try {
-            sCommands.callAttr(PyConstant.DELETE_WALLET, password, new Kwarg("name", walletName));
+            if (allDelete){
+                sCommands.callAttr(PyConstant.DELETE_WALLET, password, new Kwarg("name", walletName),new Kwarg("hd", true));
+            }else {
+                sCommands.callAttr(PyConstant.DELETE_WALLET, password, new Kwarg("name", walletName));
+            }
         } catch (Exception e) {
             response.setErrors(e.getMessage());
             e.printStackTrace();

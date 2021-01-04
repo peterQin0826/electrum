@@ -127,7 +127,7 @@ public class DeleteWalletActivity extends BaseActivity implements CompoundButton
 
     private void deleteSingleWallet(String password) {
         String keyName = PreferencesManager.get(this, "Preferences", Constant.CURRENT_SELECTED_WALLET_NAME, "").toString();
-        PyResponse<Void> response = PyEnv.deleteWallet(password, keyName);
+        PyResponse<Void> response = PyEnv.deleteWallet(password, keyName,false);
         String errors = response.getErrors();
         if (Strings.isNullOrEmpty(errors)) {
             onDeleteSuccess(keyName);
@@ -147,7 +147,7 @@ public class DeleteWalletActivity extends BaseActivity implements CompoundButton
                 hd.add(name);
             }
         });
-        PyResponse<Void> response = PyEnv.deleteWallet(password, deleteHdWalletName);
+        PyResponse<Void> response = PyEnv.deleteWallet(password, deleteHdWalletName,true);
         String errors = response.getErrors();
         if (Strings.isNullOrEmpty(errors)) {
             hd.forEach((name) -> {
