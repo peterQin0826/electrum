@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import org.haobtc.onekey.manager.MainFragmentFactory;
+
 public class FragmentMainAdapter extends FragmentPagerAdapter {
     private String[] mTitles;
 
@@ -16,7 +18,7 @@ public class FragmentMainAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem (int position) {
-        return null;
+        return MainFragmentFactory.createFragment(position);
     }
 
     @Override

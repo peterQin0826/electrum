@@ -33,10 +33,9 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:gravity="center"
-        android:textColor="#ffffff"
+        android:textColor="@color/defaultColor"
         android:textSize="12dp"
-        android:visibility="gone"
-        mv:mv_backgroundColor="@color/defaultColor"
+        mv:mv_backgroundColor="@color/color_EB5757"
         mv:mv_isRadiusHalfHeight="true"
         mv:mv_strokeColor="#ffffff"
         mv:mv_strokeWidth="1dp" />

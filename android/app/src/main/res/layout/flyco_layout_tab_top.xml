@@ -15,14 +15,13 @@
 
         <ImageView
             android:id="@+id/iv_tab_icon"
-            android:layout_width="22dp"
-            android:layout_height="22dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tv_tab_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:singleLine="true" />
     </LinearLayout>
 
@@ -30,15 +29,14 @@
         android:id="@+id/rtv_msg_tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="5dp"
+        android:layout_toEndOf="@+id/ll_tap"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="@dimen/dp_10"
         android:gravity="center"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/dp_12"
-        android:visibility="gone"
+        android:textColor="@color/defaultColor"
+        android:textSize="@dimen/sp_10"
         mv:mv_isRadiusHalfHeight="true"
-        mv:mv_strokeColor="#ffffff"
+        mv:mv_backgroundColor="@color/color_EB5757"
         mv:mv_strokeWidth="1dp" />
 
 </RelativeLayout>

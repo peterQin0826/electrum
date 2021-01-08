@@ -3,14 +3,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     tools:context="org.haobtc.onekey.onekeys.HomeOneKeyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <org.haobtc.onekey.ui.widget.NoScrollViewPager
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color" />
+
+        <org.haobtc.onekey.ui.widget.tablayout.CommonTabLayout
+            android:id="@+id/common_tab"
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:background="@color/defaultColor"
+            app:tl_iconGravity="TOP"
+            app:tl_iconHeight="@dimen/dp_20"
+            app:tl_iconWidth="@dimen/dp_20"
+            app:tl_textSelectColor="@color/onekey"
+            app:tl_textUnselectColor="@color/text_color_one"
+            app:tl_textsize="@dimen/sp_10" />
+
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/dp_20"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
     </FrameLayout>
 
@@ -19,7 +53,8 @@
         android:layout_marginBottom="65dp"
         android:background="@color/line_color"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/line_hight"/>
+        android:layout_height="@dimen/line_hight"
+        android:visibility="gone" />
 
     <RadioGroup
         android:id="@+id/sj_radiogroup"
@@ -28,7 +63,8 @@
         android:layout_alignParentBottom="true"
         android:background="#ffffff"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <RadioButton
             android:id="@+id/radio_one"

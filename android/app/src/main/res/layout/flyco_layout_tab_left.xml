@@ -31,12 +31,11 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/ll_tap"
         android:gravity="center"
-        android:textColor="#ffffff"
+        android:textColor="@color/defaultColor"
         android:textSize="11.5sp"
         android:visibility="gone"
-        mv:mv_backgroundColor="@color/defaultColor"
         mv:mv_isRadiusHalfHeight="true"
-        mv:mv_strokeColor="#ffffff"
+        mv:mv_backgroundColor="@color/color_EB5757"
         mv:mv_strokeWidth="1dp" />
 
 </RelativeLayout>
