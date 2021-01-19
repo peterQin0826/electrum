@@ -59,7 +59,6 @@ import org.haobtc.onekey.ui.activity.VerifyPinActivity;
 import org.haobtc.onekey.ui.base.BaseActivity;
 import org.haobtc.onekey.ui.dialog.DeleteLocalDeviceDialog;
 import org.haobtc.onekey.ui.dialog.InvalidDeviceIdWarningDialog;
-import org.haobtc.onekey.ui.dialog.UnBackupTipDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -258,7 +257,7 @@ public class HardwareDetailsActivity extends BaseActivity implements BusinessAsy
             bundle.putString(Constant.TAG_FIRMWARE_VERSION_NEW, versionStm32);
             bundle.putString(Constant.TAG_FIRMWARE_UPDATE_DES, descriptionStm32);
         }
-        boolean showNrf = isBootloader || !Strings.isNullOrEmpty(nrfVersion) && !Strings.isNullOrEmpty(versionNrf) && versionNrf.compareTo(nrfVersion) > 0;
+        boolean showNrf = isBootloader || !Strings.isNullOrEmpty(nrfVersion) && !Strings.isNullOrEmpty(versionNrf) && (versionNrf.compareTo(nrfVersion) > 0 || Objects.equals(nrfVersion, Constant.BLE_OLDEST_VER));
         if (showNrf) {
             bundle.putString(Constant.TAG_NRF_DOWNLOAD_URL, urlPrefix + urlNrf);
             bundle.putString(Constant.TAG_NRF_VERSION_NEW, versionNrf);

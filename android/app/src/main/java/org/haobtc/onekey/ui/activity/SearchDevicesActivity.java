@@ -54,6 +54,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.heaton.blelibrary.ble.Ble;
 import cn.com.heaton.blelibrary.ble.model.BleDevice;
+import dr.android.utils.LogUtil;
 import io.reactivex.disposables.Disposable;
 
 import static cn.com.heaton.blelibrary.ble.Ble.REQUEST_ENABLE_BT;
@@ -443,7 +444,7 @@ public class SearchDevicesActivity extends BaseActivity implements BleDeviceAdap
         bundle.putString(Constant.TAG_FIRMWARE_VERSION_NEW, versionStm32);
         bundle.putString(Constant.TAG_FIRMWARE_UPDATE_DES, descriptionStm32);
         // todo: 此处的判定条件在版本号出现2位数以上时会有问题
-        boolean showNrf = isBootloader || !Strings.isNullOrEmpty(curNrfVersion) && !Strings.isNullOrEmpty(versionNrf) && versionNrf.compareTo(curNrfVersion) > 0;
+        boolean showNrf = isBootloader || !Strings.isNullOrEmpty(curNrfVersion) && !Strings.isNullOrEmpty(versionNrf) && (versionNrf.compareTo(curNrfVersion) > 0 || Objects.equal(curNrfVersion, Constant.BLE_OLDEST_VER));
         if (showNrf) {
             bundle.putString(Constant.TAG_NRF_DOWNLOAD_URL, urlPrefix + urlNrf);
             bundle.putString(Constant.TAG_NRF_VERSION_NEW, versionNrf);
