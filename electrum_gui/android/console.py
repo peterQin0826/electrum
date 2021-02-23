@@ -1643,8 +1643,7 @@ class AndroidCommands(commands.Commands):
             amount = f"{amount} ETH ({fiat})"
             tx["amount"] = amount
             tx.pop("fiat", None)
-
-        return txs
+        return json.dumps(txs, cls=DecimalEncoder)
 
     def get_detail_tx_info_by_hash(self, tx_hash):
         try:
