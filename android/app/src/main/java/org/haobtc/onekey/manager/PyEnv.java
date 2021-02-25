@@ -1642,7 +1642,8 @@ public final class PyEnv {
     public static PyResponse<String> addToken(String symbol, String address) {
         PyResponse<String> response = new PyResponse<>();
         try {
-            sCommands.callAttr(PyConstant.Add_Token, symbol, address);
+            String result = sCommands.callAttr(PyConstant.Add_Token, symbol, address).toString();
+            response.setResult(result);
         } catch (Exception e) {
             Exception exception = HardWareExceptions.exceptionConvert(e);
             response.setErrors(exception.getMessage());
@@ -1660,7 +1661,8 @@ public final class PyEnv {
     public static PyResponse<String> deleteToken(String address) {
         PyResponse<String> response = new PyResponse<>();
         try {
-            sCommands.callAttr(PyConstant.Delete_Token, address);
+            String result = sCommands.callAttr(PyConstant.Delete_Token, address).toString();
+            response.setResult(result);
         } catch (Exception e) {
             Exception exception = HardWareExceptions.exceptionConvert(e);
             response.setErrors(exception.getMessage());
@@ -1669,17 +1671,11 @@ public final class PyEnv {
         return response;
     }
 
-    /**
-     * 获取 已添加token列表
-     *
-     * @return
-     */
-    public static PyResponse<String> getAllTokenInfo() {
+    public static PyResponse<String> parseQrCode(String content) {
         PyResponse<String> response = new PyResponse<>();
         try {
-            String result = sCommands.callAttr(PyConstant.GET_ALL_TOKEN).toString();
+            String result = sCommands.callAttr("parse_pr", content).toString();
             response.setResult(result);
-            Logger.json(result);
         } catch (Exception e) {
             Exception exception = HardWareExceptions.exceptionConvert(e);
             response.setErrors(exception.getMessage());
