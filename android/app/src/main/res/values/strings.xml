@@ -1366,4 +1366,6 @@
     <string name="hint_transaction_no_sender">没有填写发送者</string>
     <string name="hint_transaction_no_send_amount">没有填写发送金额</string>
     <string name="hint_transaction_no_payload">没有填写交易内容</string>
+    <string name="coin_bsc">BSC</string>
+    <string name="coin_heco">HECO</string>
 </resources>
