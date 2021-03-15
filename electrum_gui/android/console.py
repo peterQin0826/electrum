@@ -1751,7 +1751,8 @@ class AndroidCommands(commands.Commands):
             if bitcoin.is_address(self.show_addr):
                 data = util.create_bip21_uri(self.show_addr, "", "")
             elif self.pywalib.web3.isAddress(self.show_addr):
-                data = f"ethereum:{self.show_addr}"
+                prefix = "ethereum" if self.wallet.coin == "eth" else self.wallet.coin
+                data = f"{prefix}:{self.show_addr}"
             else:
                 data = self.show_addr
         except Exception as e:
@@ -3230,9 +3231,6 @@ class AndroidCommands(commands.Commands):
         # if coin_manager.is_derived_wallet_supported(coin):
         #     raise BaseException(f"Derived wallet of {coin} isn't supported.")
         # ```
-        if coin not in ("btc", "eth"):
-            raise BaseException("coin must btc/eth")
-
         try:
             self.check_password(password)
         except BaseException as e:
@@ -3907,7 +3905,7 @@ class AndroidCommands(commands.Commands):
         generic_wallet_type = None
         if type_ in ("hw", "hd"):
             generic_wallet_type = type_
-        elif type_ in ("btc", "eth", "bsc"):
+        elif type_ in ("btc", "eth", "bsc", "heco"):
             coin = type_
         elif type_ is not None:
             raise BaseException(_("Unsupported coin types"))

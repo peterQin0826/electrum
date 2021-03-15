@@ -254,7 +254,7 @@ class Abstract_Eth_Wallet(ABC):
         }
         for contract_address, contract in self.contacts.items():
             symbol, balance = PyWalib.get_balance(wallet_address, contract)
-            token_last_price = PyWalib.get_coin_price(from_coin, contract_address=contract_address)
+            token_last_price = PyWalib.get_coin_price(from_coin, contract_address=contract_address) or "0"
             balance_info[contract_address] = {
                 'symbol': symbol,
                 'address': contract_address,
