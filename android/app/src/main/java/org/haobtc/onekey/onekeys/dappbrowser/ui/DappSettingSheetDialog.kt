@@ -64,7 +64,6 @@ class DappSettingSheetDialog : BottomSheetDialogFragment(), View.OnClickListener
   }
   private var mOnSettingHandleClick: OnSettingHandleClick? = null
 
-
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
     dialog.setContentView(DialogDappSettingSheetBinding.inflate(layoutInflater).also {
