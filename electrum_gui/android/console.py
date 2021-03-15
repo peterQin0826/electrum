@@ -528,7 +528,7 @@ class AndroidCommands(commands.Commands):
             if db.get_action():
                 return
             wallet_type = db.data["wallet_type"]
-            if wallet_type[0:3] in self.coins:
+            if wallet_context.split_coin_from_wallet_type(wallet_type) in self.coins:
                 if "importe" in wallet_type:
                     wallet = Eth_Wallet(db, storage, config=self.config)
                 else:
@@ -3891,7 +3891,7 @@ class AndroidCommands(commands.Commands):
     def list_wallets(self, type_=None):
         """
         List available wallets
-        :param type: None/hw/hd/btc/eth/bsc
+        :param type: None/hw/hd/btc/eth/bsc/heco
         :return: json like "[{"wallet_key":{'type':"", "addr":"", "name":"", "label":"", "device_id": ""}}, ...]"
         exp:
             all_list = testcommond.list_wallets()
