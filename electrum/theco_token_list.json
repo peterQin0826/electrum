@@ -5,8 +5,8 @@
 	"timestamp": "2021-02-25T10:18:27.589+00:00",
 	"tokens": [{
 		"chainId": 3,
-		"address": "0x9a42d6dcd2519e94d037439c447a7a752ba9f66c",
-		"name": "ETH TTT",
+		"address": "0xca0ad3ab17fe7035f9e233bb975161b0ddeed455",
+		"name": "HECO TTT",
 		"symbol": "TTT",
 		"decimals": 18,
 		"logoURI": "",
