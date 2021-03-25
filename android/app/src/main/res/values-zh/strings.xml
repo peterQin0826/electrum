@@ -1333,4 +1333,5 @@
     <string name="hint_warning_custom_fee_gasprice_too_big">Gas Price 太多，请保证账户有足够的余额</string>
     <string name="hint_warning_custom_fee_gasprice_too_small">Gas Price 太小，会导致交易上链缓慢</string>
     <string name="hint_warning_whether_continue">是否继续？</string>
+    <string name="cannot_pair_device">可能是\"%s\"曾进行过重置并更换了助记词。请将原助记词导入此硬件钱包，然后再试一次。</string>
 </resources>

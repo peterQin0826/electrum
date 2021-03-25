@@ -28,6 +28,7 @@ open class PyEnvException : RuntimeException {
   class OperationCancelException() : PyEnvException(R.string.hint_error_operation_cancelled)
   class PairUserCancelException() : PyEnvException(R.string.hint_error_user_cancelled)
   class LackOfBalanceException() : PyEnvException(R.string.balance_zero)
+  class ConnectDeviceException():PyEnvException(R.string.cannot_pair)
   class ForcedHardwareUpgradeException() : PyEnvException(R.string.hint_forced_hardware_upgrade)
   class SoftwareException(message: String) : RuntimeException(message)
 
@@ -52,6 +53,7 @@ open class PyEnvException : RuntimeException {
         "Update failed: FirmwareError".equals(messagePair.first, true) -> UpdateFailedException()
         "Operation cancelled".equals(messagePair.first, true) -> OperationCancelException()
         "InsufficientFundsException".equals(messagePair.second, true) -> LackOfBalanceException()
+        "Can\'t Pair With Your Device".equals(messagePair.first,true) ->ConnectDeviceException()
         messagePair.second.contains("UserCancel", true) -> PairUserCancelException()
         else -> {
           Logger.d("PyEnv 错误信息转换:" + e.message +"   first:${messagePair.first}   second:${messagePair.second}")

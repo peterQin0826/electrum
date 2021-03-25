@@ -30,13 +30,22 @@ class DeviceManager private constructor(private val context: Context) {
    */
   fun getDeviceInfo(deviceId: String): HardwareFeatures? {
     val deviceInfo = PreferencesManager.get(
-        context, Constant.DEVICES, deviceId, "")
-        .toString()
+      context, Constant.DEVICES, deviceId, ""
+    )
+      .toString()
     return if (!Strings.isNullOrEmpty(deviceInfo)) {
       HardwareFeatures.objectFromData(deviceInfo)
     } else {
       null
     }
+  }
+
+  fun getDeviceName(deviceId: String): String? {
+    val deviceInfo = getDeviceInfo(deviceId)
+    deviceInfo?.let {
+      return if (!Strings.isNullOrEmpty(deviceInfo.bleName)) deviceInfo.label else deviceInfo.bleName
+    }
+    return ""
   }
 
   /**
@@ -48,7 +57,8 @@ class DeviceManager private constructor(private val context: Context) {
    */
   fun getDeviceBleMacAddress(bleName: String): String? {
     val macAddress = PreferencesManager.get(
-        context, Constant.BLE_INFO, bleName, "")
+      context, Constant.BLE_INFO, bleName, ""
+    )
     return if (macAddress is String && macAddress.isNotEmpty()) {
       macAddress
     } else {
